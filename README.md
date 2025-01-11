@@ -14,7 +14,7 @@ python3 net2-add-tokens.py
 Before you begin, you will need a CSV file containing a list of the new token numbers to add. 
 
 One way to get this is to present all new tokens to an installed reader and create a report to show all _'Invalid access events'_ at that reader. 
- The utility can accept the exported CSV file this report would export.
+ The utility can accept the exported CSV file this report would produce.
 
 > [!WARNING]
 > Ensure the report only contains the tokens you want to add as new users by restricting the start and end time of the report.

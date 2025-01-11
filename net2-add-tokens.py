@@ -3,20 +3,20 @@ import os.path
 from datetime import datetime
 
 def main():
-    print("""Net2 Batch Add Token Utility
+    print("""\033[1mNet2 Bulk Add Tokens Import Utility:\033[0m
     
-This CLI Utility processes a file containing new tokens numbers and generates
-another CSV file which can be used to import new users into a Net2 database
-with the provided token numbers.
+This CLI Utility processes a CSV file containing new token numbers and generates
+a file which can be used to import the new tokens into a Net2 database
 """)
 
-    file_path = input("Path to the new tokens file: ").strip()
+    file_path = input("Path to CSV file containing new token numbers: ").strip()
 
     if not os.path.isfile(file_path):
         print(f"Error: File '{file_path}' not found.")
         return
 
     try:
+        # Attempt to open the user-provided file
         with open(file_path, 'r') as file:
             reader = csv.DictReader(file)
             rows = list(reader)
@@ -27,10 +27,12 @@ with the provided token numbers.
     except Exception as e:
         print(f'Error reading the CSV file: {e}')
         return
+    print("")
 
     try:
         # Identify the token number column
-        if 'Token number' not in columns:
+        if 'Token number' not in columns: # 'Token number' is the default header produced by a Net2 custom report
+            # If 'Token number' cannot be found, ask the user to provide the correct column index.
             for i, col in enumerate(columns, start=1):
                 print(f'{i} – {col}')
             selected_index = int(input("Enter number of the token column: "))
@@ -46,7 +48,7 @@ with the provided token numbers.
 
         # The ID to begin the first user at
         start_id = int(input(
-            "\nEnter the starting ID for new users. WARNING: Any users with a duplicate ID will be overwritten. Leave blank for 900000: ").strip() or 0)
+            "\nEnter the starting ID for new users.\nWARNING: Any users with a duplicate ID will be overwritten. Leave blank for 900000: ").strip() or 0)
         if start_id == 0:
             start_id = 900000
 
